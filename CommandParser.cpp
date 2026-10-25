@@ -196,6 +196,9 @@ void CommandParser::CmdHelp() {
         << std::left << std::setw(30) << "write <alias> <value>"
         << "- Write a value to a characteristic using its alias\n"
 
+		<< std::left << std::setw(30) << "status"
+		<< "- Show current connection and scanning status\n"
+
         << std::left << std::setw(30) << "help"
         << "- Show this help menu\n"
 
