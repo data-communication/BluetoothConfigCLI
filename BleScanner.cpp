@@ -1,4 +1,3 @@
-
 #include "BleScanner.h"
 
 #include <iomanip>
@@ -6,14 +5,12 @@
 #include <utility>
 
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Devices.Bluetooth.Advertisement.h>
 
 #pragma comment(lib, "runtimeobject.lib")
 
-using namespace winrt;
-using namespace Windows::Devices::Bluetooth::Advertisement;
-
 BleScanner::BleScanner() {
-    init_apartment(apartment_type::multi_threaded);
+    winrt::init_apartment(winrt::apartment_type::multi_threaded);
 }
 
 BleScanner::~BleScanner() {
@@ -29,13 +26,15 @@ void BleScanner::Start() {
     m_devices.clear();
     m_seenAddresses.clear();
 
-    m_watcher = BluetoothLEAdvertisementWatcher();
-    m_watcher.ScanningMode(BluetoothLEScanningMode::Active);
+    m_watcher = winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementWatcher();
+    m_watcher.ScanningMode(
+        winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEScanningMode::Active
+    );
 
     m_receivedToken = m_watcher.Received(
         [this](
-            BluetoothLEAdvertisementWatcher const& sender,
-            BluetoothLEAdvertisementReceivedEventArgs const& args)
+            winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementWatcher const& sender,
+            winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementReceivedEventArgs const& args)
         {
             OnAdvertisementReceived(sender, args);
         });
@@ -75,21 +74,19 @@ std::vector<BleDevice> BleScanner::GetDevices() const {
 }
 
 void BleScanner::OnAdvertisementReceived(
-    BluetoothLEAdvertisementWatcher const&,
-    BluetoothLEAdvertisementReceivedEventArgs const& args)
+    winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementWatcher const&,
+    winrt::Windows::Devices::Bluetooth::Advertisement::BluetoothLEAdvertisementReceivedEventArgs const& args)
 {
     const auto address = args.BluetoothAddress();
 
-    std::string name = winrt::to_string(
-        args.Advertisement().LocalName());
+    std::string name = winrt::to_string(args.Advertisement().LocalName());
 
     std::wstringstream addressStream;
     addressStream << std::hex << std::uppercase
         << std::setfill(L'0')
         << std::setw(12) << address;
 
-    std::string addressString =
-        winrt::to_string(addressStream.str());
+    std::string addressString = winrt::to_string(addressStream.str());
 
     std::lock_guard lock(m_mutex);
 
@@ -101,11 +98,9 @@ void BleScanner::OnAdvertisementReceived(
             if (device.address == addressString) {
                 if (!name.empty())
                     device.name = name;
-
                 return;
             }
         }
-
         return;
     }
 

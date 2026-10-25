@@ -24,12 +24,18 @@
     <ClCompile Include="BleScanner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BleConnection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BleScanner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BleConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

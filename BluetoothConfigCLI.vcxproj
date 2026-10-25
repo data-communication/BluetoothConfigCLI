@@ -139,11 +139,13 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BleConnection.cpp" />
     <ClCompile Include="BleScanner.cpp" />
     <ClCompile Include="CommandParser.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BleConnection.h" />
     <ClInclude Include="BleScanner.h" />
     <ClInclude Include="CommandParser.h" />
   </ItemGroup>

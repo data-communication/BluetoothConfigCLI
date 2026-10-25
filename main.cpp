@@ -5,10 +5,11 @@
 
 int main(void) {
     BleScanner scanner;
-    CommandParser parser(scanner);
+    BleConnection connection(scanner);
+    CommandParser parser(scanner, connection);
 
     std::cout << "BluetoothConfigCLI\n"
-        << "Commands: scan, stop scan, list, exit\n\n";
+        << "Commands: scan, list, connect, disconnect, read, write, status, help, exit\n\n";
 
     std::string command;
 
